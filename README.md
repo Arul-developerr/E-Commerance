@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NexaCart
 
-## Getting Started
+A frontend-only shopping demo built with Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4, Zustand, and Lucide React.
 
-First, run the development server:
+## Run locally
 
-```bash
+```powershell
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. If the machine's global `npm` launcher is broken but dependencies are already installed, run `node node_modules/next/dist/bin/next dev --port 3000` from this folder.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```powershell
+npm run lint
+npm run build
+```
 
-## Learn More
+## What works
 
-To learn more about Next.js, take a look at the following resources:
+- Browse the local catalogue by category, search term, brand, price, rating, and sample availability; sort by featured, newest, price, or rating.
+- Save products to a wishlist and add products to a bag, including variant selection and quantity changes. Zustand persists both in browser storage and discards malformed saved entries.
+- Preview an estimated total and a simulated checkout. The coupon field correctly reports that no codes are configured.
+- Save optional demo profile details in this browser. The seller page reports only figures derived from the local product data.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Demo boundaries
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project has no backend, authentication, order service, payment gateway, email, or delivery provider. Checkout never places an order or collects card details. Shipping and tax are illustrative estimates. Product descriptions, prices, ratings, review counts, and inventory come from sample data in `src/data/`; they are not live commerce information. Product and editorial images in `public/` are locally generated illustrative assets.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The product catalogue, filtering, pricing, and shopping state are separated in `src/data/`, `src/lib/`, and `src/store/` so live APIs can replace the sample sources later. No 3D scene is included because this catalogue has no real 3D product assets.

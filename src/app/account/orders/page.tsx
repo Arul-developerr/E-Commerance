@@ -1,0 +1,3 @@
+import Link from "next/link";
+import { PackageOpen } from "lucide-react";
+export default function OrdersPage() { return <div className="py-8 text-center"><PackageOpen size={44} className="mx-auto text-brand-primary" /><h2 className="display-serif mt-5 text-3xl">No orders to show.</h2><p className="mx-auto mt-3 max-w-md leading-7 text-brand-text-secondary">This frontend demo does not place or track real orders. Your product picks are available in the cart and wishlist.</p><Link href="/search" className="mt-6 inline-flex rounded-full bg-brand-primary px-6 py-3 text-sm font-semibold text-white">Explore products</Link></div>; }

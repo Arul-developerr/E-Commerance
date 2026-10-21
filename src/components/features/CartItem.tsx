@@ -1,0 +1,10 @@
+import { ProductImage } from "@/components/ui/ProductImage";
+import Link from "next/link";
+import { Minus, Plus, Trash2 } from "lucide-react";
+import type { Product } from "@/types";
+
+export function CartItem({ product, quantity, onUpdate, onRemove, variantSelection }: { product: Product; quantity: number; onUpdate: (quantity: number) => void; onRemove: () => void; variantSelection: Record<string, string> }) {
+  return <article className="surface-card flex gap-4 p-4 sm:gap-6 sm:p-6"><Link href={`/product/${product.slug}`} aria-label={`View ${product.name}`} className="relative aspect-[4/5] w-24 shrink-0 overflow-hidden rounded-xl bg-brand-bg sm:w-32"><ProductImage product={product} sizes="128px" /></Link><div className="flex min-w-0 flex-1 flex-col"><p className="eyebrow text-brand-text-secondary">{product.brand}</p><Link href={`/product/${product.slug}`} className="mt-1 font-semibold hover:text-brand-primary">{product.name}</Link>{Object.keys(variantSelection).length > 0 && <p className="mt-2 text-xs text-brand-text-secondary">{Object.entries(variantSelection).map(([key, value]) => `${key}: ${value}`).join(" · ")}</p>}<p className="mt-3 text-sm font-bold">${(product.price * quantity).toFixed(2)}</p><div className="mt-auto flex items-end justify-between gap-2 pt-4"><div className="flex h-10 items-center rounded-full border border-brand-border"><button type="button" onClick={() => onUpdate(quantity - 1)} aria-label={`Decrease ${product.name} quantity`} className="flex h-10 w-10 items-center justify-center"><Minus size={15} /></button><span className="w-6 text-center text-sm font-semibold">{quantity}</span><button type="button" onClick={() => onUpdate(quantity + 1)} aria-label={`Increase ${product.name} quantity`} className="flex h-10 w-10 items-center justify-center"><Plus size={15} /></button></div><button type="button" onClick={onRemove} aria-label={`Remove ${product.name}`} className="flex h-10 w-10 items-center justify-center rounded-full text-brand-error hover:bg-red-50"><Trash2 size={18} /></button></div></div></article>;
+}
+
+

@@ -1,0 +1,18 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { CheckCircle2, ShoppingBag } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { OrderSummary } from "@/components/features/OrderSummary";
+import { useCartStore } from "@/store/useCartStore";
+
+export default function CheckoutPage() {
+  const items = useCartStore(state => state.items);
+  const [completed, setCompleted] = useState(false);
+  const [coupon, setCoupon] = useState("");
+  const [couponMessage, setCouponMessage] = useState("");
+  if (completed) return <div className="site-container flex min-h-[55vh] flex-col items-center justify-center py-20 text-center"><CheckCircle2 size={60} className="text-brand-success" /><p className="eyebrow mt-6 text-brand-secondary">Demo complete</p><h1 className="display-serif mt-3 text-4xl md:text-5xl">Checkout preview complete.</h1><p className="mt-5 max-w-md leading-7 text-brand-text-secondary">No order was placed, no payment was taken, and no delivery has been arranged. Your demo cart is still saved in this browser.</p><Link href="/search" className="mt-7 rounded-full bg-brand-primary px-6 py-3 font-semibold text-white">Keep exploring</Link></div>;
+  if (!items.length) return <div className="site-container flex min-h-[55vh] flex-col items-center justify-center py-20 text-center"><ShoppingBag size={54} className="text-brand-primary" /><h1 className="display-serif mt-5 text-4xl">Your bag is empty.</h1><p className="mt-3 text-brand-text-secondary">Add a product before previewing checkout.</p><Link href="/search" className="mt-6 rounded-full bg-brand-primary px-6 py-3 font-semibold text-white">Explore products</Link></div>;
+  return <div className="site-container py-9 md:py-14"><nav aria-label="Breadcrumb" className="mb-6 text-xs text-brand-text-secondary"><Link href="/cart">Bag</Link> / Checkout preview</nav><p className="eyebrow mb-3 text-brand-secondary">Last look</p><h1 className="display-serif text-4xl md:text-6xl">Checkout preview.</h1><p className="mt-4 max-w-2xl text-brand-text-secondary">This storefront is a frontend demo. Use this page to review your bag; it does not collect payment details or create orders.</p><div className="mt-10 grid gap-8 lg:grid-cols-[1fr_400px]"><div className="space-y-6"><div className="surface-card p-6 md:p-8"><h2 className="text-xl font-bold">Delivery and payment</h2><p className="mt-3 leading-7 text-brand-text-secondary">Shipping choices, address entry, payment and order tracking will be available when a real checkout service is connected. No personal or card information is requested here.</p></div><div className="surface-card p-6 md:p-8"><label htmlFor="coupon" className="text-sm font-bold">Coupon code</label><p className="mt-1 text-xs text-brand-text-secondary">No promo codes are configured in this demo.</p><div className="mt-4 flex gap-2"><input id="coupon" value={coupon} onChange={event => { setCoupon(event.target.value); setCouponMessage(""); }} placeholder="Enter code" className="min-w-0 flex-1 rounded-full border border-brand-border px-4" /><Button type="button" variant="outline" onClick={() => setCouponMessage(coupon.trim() ? "This demo has no active coupon codes." : "Enter a code to check it.")}>Apply</Button></div>{couponMessage && <p role="status" className="mt-3 text-sm text-brand-text-secondary">{couponMessage}</p>}</div></div><div className="h-fit space-y-4"><OrderSummary /><Button onClick={() => setCompleted(true)} className="w-full">Preview completion</Button><p className="text-center text-xs text-brand-text-secondary">This action does not place an order.</p></div></div></div>;
+}

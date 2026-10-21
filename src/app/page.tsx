@@ -1,69 +1,24 @@
-import Image from "next/image";
+import { ArrowRight, Heart, PackageCheck, SlidersHorizontal } from "lucide-react";
+import Link from "next/link";
+import { Hero } from "@/components/features/Hero";
+import { CategoryDiscovery } from "@/components/features/CategoryDiscovery";
+import { ProductGrid } from "@/components/features/ProductGrid";
+import { PromoBanner } from "@/components/features/PromoBanner";
+import { MOCK_PRODUCTS } from "@/data/products";
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+export default function HomePage() {
+  const featured = MOCK_PRODUCTS.filter(product => product.isFeatured).slice(0, 4);
+  const bestSellers = MOCK_PRODUCTS.filter(product => product.isBestSeller);
+  const newArrivals = MOCK_PRODUCTS.filter(product => product.isNew);
+  return <>
+    <Hero />
+    <div className="site-container mt-5 grid gap-2 rounded-2xl border border-brand-border bg-white px-5 py-4 text-xs font-semibold text-brand-text-secondary sm:grid-cols-3 sm:gap-4 md:text-sm"><div className="flex items-center gap-3"><SlidersHorizontal size={18} className="text-brand-primary" />Discover by category and price</div><div className="flex items-center gap-3"><Heart size={18} className="text-brand-primary" />Save favorites for later</div><div className="flex items-center gap-3"><PackageCheck size={18} className="text-brand-primary" />Simple demo checkout</div></div>
+    <CategoryDiscovery />
+    <ProductGrid title="The good list." subtitle="Pieces that stand out across the collection." products={featured} />
+    <div className="site-container py-3 md:py-8"><PromoBanner title="A little more room for living." subtitle="Thoughtful home pieces and useful objects for the spaces you love most." ctaText="Explore home" ctaLink="/category/home-kitchen" imageIndex={4} /></div>
+    <ProductGrid title="Popular picks." subtitle="Explore favorites from the demo catalogue." products={bestSellers} />
+    <div className="site-container py-3 md:py-8"><PromoBanner variant="secondary" title="Fresh perspective, fresh finds." subtitle="A smaller edit of recent additions to the collection." ctaText="See new arrivals" ctaLink="/search?sort=new" imageIndex={5} /></div>
+    <ProductGrid title="Just landed." subtitle="Newly added to NexaCart." products={newArrivals} />
+    <div className="site-container mb-16 mt-4 flex flex-col items-start justify-between gap-5 rounded-[1.75rem] bg-brand-primary p-8 text-white sm:flex-row sm:items-center md:p-12"><div><p className="eyebrow text-white/70">The whole collection</p><h2 className="display-serif mt-2 text-3xl md:text-4xl">Your next favorite is here.</h2></div><Link href="/search" className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-6 text-sm font-bold text-brand-primary">Shop all products <ArrowRight size={17} /></Link></div>
+  </>;
 }
